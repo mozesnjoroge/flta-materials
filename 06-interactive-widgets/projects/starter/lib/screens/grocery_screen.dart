@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-
+import 'package:provider/provider.dart';
+import '../models/models.dart';
 import 'empty_grocery_screen.dart';
 
 class GroceryScreen extends StatelessWidget {
@@ -7,6 +8,23 @@ class GroceryScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const EmptyGroceryScreen();
+    return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        child: const Icon(Icons.add),
+        onPressed: () {},
+      ),
+      body: buildGroceryScreen(),
+    );
   }
+}
+
+Widget buildGroceryScreen() {
+  return Consumer<GrooceryManager>(builder: (context, groceryManager, child) {
+    if (groceryManager.groceryItems.isNotEmpty) {
+      return Container();
+      //TODO : Add grocery List Screen
+    } else {
+      return const EmptyGroceryScreen();
+    }
+  });
 }
