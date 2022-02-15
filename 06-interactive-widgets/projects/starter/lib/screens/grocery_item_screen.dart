@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+import 'package:uuid/uuid.dart';
 
+import '../components/components.dart';
 import '../models/models.dart';
 
 class GroceryItemScreen extends StatefulWidget {
@@ -67,7 +69,18 @@ class _GroceryItemScreenState extends State<GroceryItemScreen> {
         actions: [
           IconButton(
             onPressed: () {
-              //TODO : add callback handler
+              final groceryItem = GroceryItem(
+                id: widget.originalItem?.id ?? const Uuid().v1(),
+                name: _nameController.text,
+                importance: _importance,
+                color: _currentColor,
+                quantity: _currentSliderValue,
+                date: DateTime(_dueDate.year, _dueDate.month, _dueDate.day,
+                    _timeOfDay.hour, _timeOfDay.minute),
+              );
+              widget.isUpdating
+                  ? widget.onUpdate(groceryItem)
+                  : widget.onCreate(groceryItem);
             },
             icon: const Icon(Icons.check),
           ),
@@ -105,6 +118,20 @@ class _GroceryItemScreenState extends State<GroceryItemScreen> {
               height: 10.0,
             ),
             buildQuantityField(),
+            const SizedBox(
+              height: 10.0,
+            ),
+            GroceryTile(
+              groceryItem: GroceryItem(
+                id: 'preview mode',
+                name: _name,
+                importance: _importance,
+                color: _currentColor,
+                quantity: _currentSliderValue,
+                date: DateTime(_dueDate.year, _dueDate.month, _dueDate.day,
+                    _timeOfDay.hour, _timeOfDay.minute),
+              ),
+            )
           ],
         ),
       ),
