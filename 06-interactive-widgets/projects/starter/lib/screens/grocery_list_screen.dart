@@ -37,7 +37,7 @@ class GroceryListScreen extends StatelessWidget {
               child: GroceryTile(
                 key: Key(groceryItem.id),
                 groceryItem: groceryItem,
-                //TODO Wrap ina Dismissable
+                
 
                 onComplete: (change) {
                   if (change != null) {
